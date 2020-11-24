@@ -12,7 +12,85 @@
 <p>Howwever, enchantments in this early buggy state are still of interest. For example, in Beta 1.9 Prerelease 4 (hereafter stylized b1.9-p4), spawners, lit furnaces, infested stone block types, and smooth stone double slabs could be obtained with a silk touch pickaxe. In fact, the motivation behind this project was originally to find the optimal level for getting silk touch on an iron pickaxe.</p>
 <p>The current scope of the project is now much broader: to document the mechanics of enchanting in these early days, to track any changes during the time from b1.9-p3 to 1.0.0, and to provide calculators to assist with any enchanting efforts for these versions.</p>
 <hr>
-<h2>b1.9-p5</h2>
+<h2>b1.9-p5 code analysis</h2>
 <p>We start with b1.9-p5 solely because a version of MCP was released for it. This and other historical MCP versions can be found on the <a href="https://minecraft.gamepedia.com/Programs_and_editors/Mod_Coder_Pack">Minecraft Wiki</a>, and a direct download can be found <a href="http://www.mediafire.com/?rf5tothc5h7au3f">here.</a></p>
+<h3>Choosing enchantment levels</h3>
+<p>In these versions of Minecraft, the maximum enchanting level was 50, and removing an item from the slot and re-adding it would refresh the available levels. This means that we will first want to determine how these levels are chosen, as it is obviously very different from modern Minecraft.</p>
+<p>The relevant code is found in the <code>onCraftMatrixChanged</code> function of the <code>ContainerEnchantment</code> class, as named by MCP. This is one of only a handful of relevant functions that MCP names. From here on out, most function names I've assigned.
+<pre>
+if(itemstack == null || !itemstack.is_enchantable()) {
+    for(int i = 0; i < 3; i++) {
+        chosen_xp_levels[i] = 0;
+    }
+}
+</pre>
+<p>This code will clear out the xp levels in the table if the item isn't enchantable. This changes the appearance in the UI. If our item is enchantable, and the world is singlepalyer, we continue the the following code.</p>
+<pre>
+int bookshelves = 0;
+for(int k = -1; k <= 1; k++) {
+    for(int i1 = -1; i1 <= 1; i1++) {
+        if(k == 0 && i1 == 0 || !the_world.isAirBlock(x + i1, y, z + k) || !the_world.isAirBlock(x + i1, y + 1, z + k)) {
+            continue;
+        }
+        if(the_world.getBlockId(x + i1 * 2, y, z + k * 2) == Block.bookShelf.blockID) {
+            bookshelves++;
+        }
+        if(the_world.getBlockId(x + i1 * 2, y + 1, z + k * 2) == Block.bookShelf.blockID) {
+            bookshelves++;
+        }
+        if(i1 == 0 || k == 0) {
+            continue;
+        }
+        if(the_world.getBlockId(x + i1 * 2, y, z + k) == Block.bookShelf.blockID) {
+            bookshelves++;
+        }
+        if(the_world.getBlockId(x + i1 * 2, y + 1, z + k) == Block.bookShelf.blockID) {
+            bookshelves++;
+        }
+        if(the_world.getBlockId(x + i1, y, z + k * 2) == Block.bookShelf.blockID) {
+            bookshelves++;
+        }
+        if(the_world.getBlockId(x + i1, y + 1, z + k * 2) == Block.bookShelf.blockID) {
+            bookshelves++;
+        }
+    }
+}
+</pre>
+<p>This code calculates how many bookshelves are around us. It does this by iterating over the 8 columns around the bookshelf. If either of the blocks in the column is not air, none of that column's bookshelves can count.<p>
+<p>If they are air, then it checks the column coordinates with double the offset as the air column, and bookshelves in that column count towards the total. This counts corner bookshelves for corner air columns and side bookshelves for side air columns.</p>
+<p>However, this leaves 8 columns unchecked, namely, those with an offset of (±2, ±1) or (±1, ±2) from the table. To check these, it uses the air corners and selectively doubles the offset for either x or z.<p>
+<pre>
+for(int ench_slot = 0; ench_slot < 3; ench_slot++) {
+    chosen_xp_levels[ench_slot] = EnchantmentHelper.get_xp_offer(random, ench_slot, bookshelves, itemstack);
+}
+</pre>
+<p>We now populate the enchantment offers. To do so, we must switch over to the <code>EnchantmentHelper</code> class.</p>
+<pre>
+Item item = itemstack.getItem();
+int k = item.enchantability();
+if(k <= 0) {
+    return 0;
+}
+if(bookshelves > 30) {
+    bookshelves = 30;
+}
+</pre>
+<p>This code gets our item and the enchantability of the item. This enchantability is defined by the material in the below table (TODO). If that enchantability isn't strictly positive, it's unenchantable and we stop. Otherwise, we cap out the number of bookshelves used for calculations at 30 (32 is possible, but 30 allows for a door to be added).</p>
+<pre>
+bookshelves = 1 + random.nextInt((bookshelves >> 1) + 1) + random.nextInt(bookshelves + 1);
+int l = random.nextInt(5) + bookshelves;
+</pre>
+<p>This is finally where the magic happens. We calculate a value <code>l</code> from the number of bookshelves and some random integers. This code is fairly straightforward to understand (note that the <code>>> 1</code> operator is equivalent to integer division by 2.)</p>
+<pre>
+if(ench_slot == 0) {
+    return (l >> 1) + 1;
+}
+if(ench_slot == 1) {
+    return (l * 2) / 3 + 1;
+} else {
+    return l;
+}
+</pre>
+<p>We finally return the values shown to the player. If we're in the top slot, this value is <code>l/2+1</code>, rounded down. The second slot gets <code>2/3*l + 1</code>, rounded down, and the botton slot gets just <code>l</code>. Note that this is called seperately, with different random values, for each slot, so this fractional relationship isn't preserved for any one enchanting table offer, but should be for an overall average.</p>
 </body>
 </html>

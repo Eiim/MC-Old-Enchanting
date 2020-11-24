@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Old Enchanting Mechanics</title>
+<meta charset="UTF-8">
 </head>
 <body>
 <h1>Welcome to some unstyled HTML!</h1>
@@ -24,7 +25,7 @@ if(itemstack == null || !itemstack.is_enchantable()) {
     }
 }
 </pre>
-<p>This code will clear out the xp levels in the table if the item isn't enchantable. This changes the appearance in the UI. If our item is enchantable, and the world is singlepalyer, we continue the the following code.</p>
+<p>This code will clear out the xp levels in the table if the item isn't enchantable. This changes the appearance in the UI. If our item is enchantable, we continue with the following code.</p>
 <pre>
 int bookshelves = 0;
 for(int k = -1; k <= 1; k++) {
@@ -58,7 +59,7 @@ for(int k = -1; k <= 1; k++) {
 </pre>
 <p>This code calculates how many bookshelves are around us. It does this by iterating over the 8 columns around the bookshelf. If either of the blocks in the column is not air, none of that column's bookshelves can count.<p>
 <p>If they are air, then it checks the column coordinates with double the offset as the air column, and bookshelves in that column count towards the total. This counts corner bookshelves for corner air columns and side bookshelves for side air columns.</p>
-<p>However, this leaves 8 columns unchecked, namely, those with an offset of (±2, ±1) or (±1, ±2) from the table. To check these, it uses the air corners and selectively doubles the offset for either x or z.<p>
+<p>However, this leaves 8 columns unchecked, namely, those with an offset of (Â±2, Â±1) or (Â±1, Â±2) from the table. To check these, it uses the air corners and selectively doubles the offset for either x or z.<p>
 <pre>
 for(int ench_slot = 0; ench_slot < 3; ench_slot++) {
     chosen_xp_levels[ench_slot] = EnchantmentHelper.get_xp_offer(random, ench_slot, bookshelves, itemstack);

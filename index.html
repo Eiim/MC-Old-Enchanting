@@ -80,7 +80,7 @@ if(bookshelves > 30) {
     bookshelves = 30;
 }
 </pre>
-<p>This code gets our item and the enchantability of the item. This enchantability is defined by the material in the below table (TODO). If that enchantability isn't strictly positive, it's unenchantable and we stop. Otherwise, we cap out the number of bookshelves used for calculations at 30 (32 is possible, but 30 allows for a door to be added).</p>
+<p>This code gets our item and the enchantability of the item. This enchantability will be positive for any enchantable item. If that enchantability isn't strictly positive, it's unenchantable and we stop. Otherwise, we cap out the number of bookshelves used for calculations at 30 (32 is possible, but 30 allows for a door to be added).</p>
 <pre>
 bookshelves = 1 + random.nextInt((bookshelves >> 1) + 1) + random.nextInt(bookshelves + 1);
 int l = random.nextInt(5) + bookshelves;
@@ -99,15 +99,48 @@ if(ench_slot == 1) {
 <p>We finally return the values shown to the player. If we're in the top slot, this value is <code>l/2+1</code>, rounded down. The second slot gets <code>2/3*l + 1</code>, rounded down, and the botton slot gets just <code>l</code>. Note that this is called seperately, with different random values, for each slot, so this fractional relationship isn't preserved for any one enchanting table offer, but should be for an overall average.</p>
 </div>
 
-<h2 style="height:32px"><a onclick="document.getElementById('p5summ').style.display = document.getElementById('p5summ').style.display === 'none' ? '' : 'none'; document.getElementById('p5summArrow').textContent = document.getElementById('p5summArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="p5summArrow">&#9660;</span> b1.9-p5 code analysis</a></h2>
+<h2><a onclick="document.getElementById('p5summ').style.display = document.getElementById('p5summ').style.display === 'none' ? '' : 'none'; document.getElementById('p5summArrow').textContent = document.getElementById('p5summArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="p5summArrow">&#9660;</span> b1.9-p5 code analysis</a></h2>
 <div id="p5summ">
 <h3>Choosing enchanting levels</h3>
 <p>To choose enchanting levels (the 3 xp costs shown to the player in the enchant), we rely on the number of nearby bookshelves and some random values. In this version, the max level is 50 instead of 30, enchantment levels are often not shown in increasing order, more bookshelves can be used, and taking an item out of the enchanting slot and reinserting it refreshes the options.</p>
-<img src="enchanting-setup.svg"></img>
+<img src="enchanting-setup.svg" width=240px height=240px alt="Enchanting table surrounded by 16 bookshelves, with a 1-block air gap."></img>
 <p>This is a top-down view of an enchanting setup (note that bookshelf sides are shown for clarity). Bookshelves in each of these positions count to the total, either at or 1 block above the y-level of the bookshelf. This means that a total of 32 bookshelves can be in range of the table, however, the number is capped at 30 for calculation purposes. This allows a door to be added at no cost.</p>
 <p>The image below indicates how bookshelves can be blocked off by highlighting air blocks and their associated bookshelves in the same color. A non-air block in either block of a column will prevent all of that column's bookshelves from being counted.</p>
-<img src="enchanting-setup-highlighted.svg"></img>
+<img src="enchanting-setup-highlighted.svg" width=240px height=240px alt="Previous image, but with regions highlighted such that air blocks are grouped with the bookshelves touching them (and corner air blocks are grouped with corner bookshelves)"></img>
 
 </div>
 </body>
 </html>
+
+<!--<table>
+	<tr>
+		<th>Material</th>
+		<th>Tool</th>
+		<th>Armor</th>
+	</tr>
+	<tr>
+		<td>Leather/Wood</td>
+		<td>15</td>
+		<td>15</td>
+	</tr>
+	<tr>
+		<td>Stone/Chain</td>
+		<td>5</td>
+		<td>12</td>
+	</tr>
+	<tr>
+		<td>Iron</td>
+		<td>14</td>
+		<td>9</td>
+	</tr>
+	<tr>
+		<td>Gold</td>
+		<td>22</td>
+		<td>25</td>
+	</tr>
+	<tr>
+		<td>Diamond</td>
+		<td>10</td>
+		<td>10</td>
+	</tr>
+</table>-->

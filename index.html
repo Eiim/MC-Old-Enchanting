@@ -142,7 +142,10 @@ float f = ((random.nextFloat() + random.nextFloat()) - 1.0F) * 0.25F;
 int l = (int)((float)k * (1.0F + f) + 0.5F);
 </pre>
 <p>As you can see, the way this randomness is integrated is complicated, and so the resultant probability distribution is non-trivial. <code>k</code> should follow a triangular distribution, as should <code>f</code>, but I'm not certain what the resulting distribution of <code>l</code> is. It is likely somewhat bell-shaped. I plan to add a tool to visualize it on this page in the future.</p>
-<p>We now switch to the <code>get_valid_enchants</code> function in the same class. Ultimately, this just iterates over each possible function ID (0-255) and checks if that function exists. If it does exist, it iterates over all possible levels for that function (eg, Efficiency 1 - 5, Silk Touch 1). For each of those, it checks the <code>get_min_levels</code> and <code>get_max_levels</code> functions and checks that <code>l</code> is within the bounds returned by those. In the code, these are defined Enchantment child classes by overriding two functions in the Enchantment class. Those bounds are described in the below table:</p>
+<p>We now switch to the <code>get_valid_enchants</code> function in the same class. Ultimately, this just iterates over each possible function ID (0-255) and checks if that function exists. If it does exist, it iterates over all possible levels for that function (eg, Efficiency 1 - 5, Silk Touch 1). For each of those, it checks the <code>get_min_levels</code> and <code>get_max_levels</code> functions and checks that <code>l</code> is within the bounds returned by those. In the code, these are defined Enchantment child classes by overriding two functions in the Enchantment class. Those bounds are described in the table below:</p>
+
+<a onclick="document.getElementById('lvalTab').style.display = document.getElementById('lvalTab').style.display === 'none' ? '' : 'none'; document.getElementById('lvalTabArrow').textContent = document.getElementById('lvalTabArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="lvalTabArrow">&#9654;</span> l-value table</a>
+<div id="lvalTab" style="display:none">
 <table>
 	<tr>
 		<th>Enchantment</th>
@@ -390,6 +393,7 @@ int l = (int)((float)k * (1.0F + f) + 0.5F);
 		<td>41</td>
 	</tr>
 </table>
+</div>
 
 <h2><a onclick="document.getElementById('p5summ').style.display = document.getElementById('p5summ').style.display === 'none' ? '' : 'none'; document.getElementById('p5summArrow').textContent = document.getElementById('p5summArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="p5summArrow">&#9660;</span> b1.9-p5 summary</a></h2>
 <div id="p5summ">

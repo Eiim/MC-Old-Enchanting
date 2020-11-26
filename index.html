@@ -107,7 +107,6 @@ if(ench_slot == 1) {
 }
 </pre>
 <p>We finally return the values shown to the player. If we're in the top slot, this value is <code>l/2+1</code>, rounded down. The second slot gets <code>2/3*l + 1</code>, rounded down, and the botton slot gets just <code>l</code>. Note that this is called seperately, with different random values, for each slot, so this fractional relationship isn't preserved for any one enchanting table offer, but should be for an overall average.</p>
-</div>
 
 <h3>Enchanting an item - level to valid enchantments</h3>
 <p>When a player clicks on a slot in the enchanting table, a function triggers in the <code>ContainerEnchantment</code> class. The first few lines of this code get the item, the xp levels to be consumed, and make some checks that the item can be enchanted. The <code>choose_enchants</code> function of the <code>EnchantmentHelper</code> class then is called to find the valid enchantments.</p>
@@ -403,6 +402,7 @@ int l = (int)((float)k * (1.0F + f) + 0.5F);
 		<td>41</td>
 	</tr>
 </table>
+</div>
 </div>
 
 <h2><a onclick="document.getElementById('p5summ').style.display = document.getElementById('p5summ').style.display === 'none' ? '' : 'none'; document.getElementById('p5summArrow').textContent = document.getElementById('p5summArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="p5summArrow">&#9660;</span> b1.9-p5 summary</a></h2>

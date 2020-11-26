@@ -8,10 +8,10 @@
 </head>
 <body>
 <h1>Welcome to some unstyled HTML!</h1>
-<h3>This should look better in the near future. If you're from the far future and want to make this look prettier, drop a PR on <a href="https://github.com/Eiim/MC-Old-Enchanting">the repo.</a></h3>
+<p>This should look better in the near future. If you're from the far future and want to make this look prettier, drop a PR on <a href="https://github.com/Eiim/MC-Old-Enchanting">the repo.</a></p>
 <hr>
 <h2>History</h2>
-<p>Enchanting was added in Minecraft Beta 1.9 Prerelease 3. At this some, experience was hard to come by, only available by killing mobs, and so high-level enchantments were difficult to obtain.</p>
+<p>Enchanting was added in Minecraft Beta 1.9 Prerelease 3. At this time, experience was hard to come by, only available by killing mobs, and so high-level enchantments were difficult to obtain.</p>
 <p>However, enchantments in this early buggy state are still of interest. For example, in Beta 1.9 Prerelease 4 (hereafter stylized b1.9-p4), spawners, lit furnaces, infested stone block types, and smooth stone double slabs could be obtained with a silk touch pickaxe. In fact, the motivation behind this project was originally to find the optimal level for getting silk touch on an iron pickaxe.</p>
 <p>The current scope of the project is now much broader: to document the mechanics of enchanting in these early days, to track any changes during the time from b1.9-p3 to 1.0.0, and to provide calculators to assist with any enchanting efforts for these versions.</p>
 <hr>
@@ -83,50 +83,26 @@ if(bookshelves > 30) {
 <p>This code gets our item and the enchantability of the item. This enchantability will be positive for any enchantable item. If that enchantability isn't strictly positive, it's unenchantable and we stop. Otherwise, we cap out the number of bookshelves used for calculations at 30 (32 is possible, but 30 allows for a door to be added).</p>
 <pre>
 bookshelves = 1 + random.nextInt((bookshelves >> 1) + 1) + random.nextInt(bookshelves + 1);
-int l = random.nextInt(5) + bookshelves;
+int xp_cost = random.nextInt(5) + bookshelves;
 </pre>
-<p>This is finally where the magic happens. We calculate a value <code>l</code> from the number of bookshelves and some random integers. This code is fairly straightforward to understand (note that the <code>>> 1</code> operator is equivalent to integer division by 2.)</p>
+<p>This is finally where the magic happens. We calculate a value <code>xp_cost</code> from the number of bookshelves and some random integers. This code is fairly straightforward to understand (note that the <code>>> 1</code> operator is equivalent to integer division by 2.)</p>
 <pre>
 if(ench_slot == 0) {
-    return (l >> 1) + 1;
+    return (xp_cost >> 1) + 1;
 }
 if(ench_slot == 1) {
-    return (l * 2) / 3 + 1;
+    return (xp_cost * 2) / 3 + 1;
 } else {
-    return l;
+    return xp_cost;
 }
 </pre>
 <p>We finally return the values shown to the player. If we're in the top slot, this value is <code>l/2+1</code>, rounded down. The second slot gets <code>2/3*l + 1</code>, rounded down, and the botton slot gets just <code>l</code>. Note that this is called seperately, with different random values, for each slot, so this fractional relationship isn't preserved for any one enchanting table offer, but should be for an overall average.</p>
 </div>
 
-<h2><a onclick="document.getElementById('p5summ').style.display = document.getElementById('p5summ').style.display === 'none' ? '' : 'none'; document.getElementById('p5summArrow').textContent = document.getElementById('p5summArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="p5summArrow">&#9660;</span> b1.9-p5 summary</a></h2>
-<div id="p5summ">
-<h3>Choosing enchanting levels</h3>
-<p>To choose enchanting levels (the 3 xp costs shown to the player in the enchant), we rely on the number of nearby bookshelves and some random values. In this version, the max level is 50 instead of 30, enchantment levels are often not shown in increasing order, more bookshelves can be used, and taking an item out of the enchanting slot and reinserting it refreshes the options.</p>
-<img src="enchanting-setup.svg" width=240px height=240px alt="Enchanting table surrounded by 16 bookshelves, with a 1-block air gap."></img>
-<p>This is a top-down view of an enchanting setup (note that bookshelf sides are shown for clarity). Bookshelves in each of these positions count to the total, either at or 1 block above the y-level of the bookshelf. This means that a total of 32 bookshelves can be in range of the table, however, the number is capped at 30 for calculation purposes. This allows a door to be added at no cost.</p>
-<p>The image below indicates how bookshelves can be blocked off by highlighting air blocks and their associated bookshelves in the same color. A non-air block in either block of a column will prevent all of that column's bookshelves from being counted.</p>
-<img src="enchanting-setup-highlighted.svg" width=240px height=240px alt="Previous image, but with regions highlighted such that air blocks are grouped with the bookshelves touching them (and corner air blocks are grouped with corner bookshelves)"></img>
-<p>Now that we know what the number of bookshelves counted is, we transform it by doing each of the following:</p>
-<ul>
-	<li>Add 1</li>
-	<li>Add a random integer between 0 and half the counted number of bookshelves (rounded down)</li>
-	<li>Add a random integer between 0 and the counted number of bookshelves</li>
-	<li>Add a random integer between 0 and 4</li>
-	<li>At the end, do the following, based on which slot we're calculating for:
-		<ul>
-			<li>Top slot: divide by two, rounded down, and add 1.</li>
-			<li>Middle slot: multiply by 2/3, rounded down, and add 1.</li>
-			<li>Bottom slot: do nothing</li>
-		</ul>
-	</li>
-</ul>
-<p>After that calculation, the value is displayed in the slot.</p>
-</div>
-</body>
-</html>
-
-<!--<table>
+<h3>Enchanting an item - level to valid enchantments</h3>
+<p>When a player clicks on a slot in the enchanting table, a function triggers in the <code>ContainerEnchantment</code> class. The first few lines of this code get the item, the xp levels to be consumed, and make some checks that the item can be enchanted. The <code>choose_enchants</code> function of the <code>EnchantmentHelper</code> class then is called to find the valid enchantments.</p>
+<p>The first few lines are again just getting the item and a check that it is enchantable. Next, we store the enchantability in the variable <code>j</code>. The enchantability of an item is defined as in the table below.</p>
+<table>
 	<tr>
 		<th>Material</th>
 		<th>Tool</th>
@@ -157,4 +133,287 @@ if(ench_slot == 1) {
 		<td>10</td>
 		<td>10</td>
 	</tr>
-</table>-->
+</table>
+<p>We then calculate an <code>l</code>-value from this enchantability (which <code>j</code> is initialized to), the xp cost calculated in the previous section, and some random values.
+<pre>
+j = 1 + random.nextInt((j >> 1) + 1) + random.nextInt((j >> 1) + 1);
+int k = j + xp_cost;
+float f = ((random.nextFloat() + random.nextFloat()) - 1.0F) * 0.25F;
+int l = (int)((float)k * (1.0F + f) + 0.5F);
+</pre>
+<p>As you can see, the way this randomness is integrated is complicated, and so the resultant probability distribution is non-trivial. <code>k</code> should follow a triangular distribution, as should <code>f</code>, but I'm not certain what the resulting distribution of <code>l</code> is. It is likely somewhat bell-shaped. I plan to add a tool to visualize it on this page in the future.</p>
+<p>We now switch to the <code>get_valid_enchants</code> function in the same class. Ultimately, this just iterates over each possible function ID (0-255) and checks if that function exists. If it does exist, it iterates over all possible levels for that function (eg, Efficiency 1 - 5, Silk Touch 1). For each of those, it checks the <code>get_min_levels</code> and <code>get_max_levels</code> functions and checks that <code>l</code> is within the bounds returned by those. In the code, these are defined Enchantment child classes by overriding two functions in the Enchantment class. Those bounds are described in the below table:</p>
+<table>
+	<tr>
+		<th>Enchantment</th>
+		<th>Min l</th>
+		<th>Max l</th>
+	</tr>
+	<tr>
+		<td>Sharpness 1</td>
+		<td>1</td>
+		<td>21</td>
+	</tr>
+	<tr>
+		<td>Sharpness 2</td>
+		<td>17</td>
+		<td>37</td>
+	</tr>
+	<tr>
+		<td>Sharpness 3</td>
+		<td>33</td>
+		<td>53</td>
+	</tr>
+	<tr>
+		<td>Sharpness 4</td>
+		<td>49</td>
+		<td>69</td>
+	</tr>
+	<tr>
+		<td>Sharpness 5</td>
+		<td>65</td>
+		<td>85</td>
+	</tr>
+	<tr>
+		<td>Efficiency 1</td>
+		<td>1</td>
+		<td>61</td>
+	</tr>
+	<tr>
+		<td>Efficiency 2</td>
+		<td>16</td>
+		<td>71</td>
+	</tr>
+	<tr>
+		<td>Efficiency 3</td>
+		<td>31</td>
+		<td>81</td>
+	</tr>
+	<tr>
+		<td>Efficiency 4</td>
+		<td>46</td>
+		<td>91</td>
+	</tr>
+	<tr>
+		<td>Efficiency 5</td>
+		<td>61</td>
+		<td>101</td>
+	</tr>
+	<tr>
+		<td>Unbreaking 1</td>
+		<td>5</td>
+		<td>61</td>
+	</tr>
+	<tr>
+		<td>Unbreaking 2</td>
+		<td>15</td>
+		<td>71</td>
+	</tr>
+	<tr>
+		<td>Unbreaking 3</td>
+		<td>25</td>
+		<td>81</td>
+	</tr>
+	<tr>
+		<td>Unbreaking 4</td>
+		<td>35</td>
+		<td>91</td>
+	</tr>
+	<tr>
+		<td>Unbreaking 5</td>
+		<td>45</td>
+		<td>101</td>
+	</tr>
+	<tr>
+		<td>Fire Aspect 1</td>
+		<td>10</td>
+		<td>61</td>
+	</tr>
+	<tr>
+		<td>Fire Aspect 2</td>
+		<td>30</td>
+		<td>71</td>
+	</tr>
+	<tr>
+		<td>Knockback 1</td>
+		<td>5</td>
+		<td>61</td>
+	</tr>
+	<tr>
+		<td>Knockback 2</td>
+		<td>25</td>
+		<td>71</td>
+	</tr>
+	<tr>
+		<td>Fortune 1</td>
+		<td>20</td>
+		<td>61</td>
+	</tr>
+	<tr>
+		<td>Fortune 2</td>
+		<td>32</td>
+		<td>71</td>
+	</tr>
+	<tr>
+		<td>Looting 1</td>
+		<td>20</td>
+		<td>61</td>
+	</tr>
+	<tr>
+		<td>Looting 2</td>
+		<td>32</td>
+		<td>71</td>
+	</tr>
+	<tr>
+		<td>Respiration 1</td>
+		<td>10</td>
+		<td>40</td>
+	</tr>
+	<tr>
+		<td>Respiration 2</td>
+		<td>20</td>
+		<td>50</td>
+	</tr>
+	<tr>
+		<td>Respiration 3</td>
+		<td>30</td>
+		<td>60</td>
+	</tr>
+	<tr>
+		<td>Protection 1</td>
+		<td>1</td>
+		<td>21</td>
+	</tr>
+	<tr>
+		<td>Protection 2</td>
+		<td>17</td>
+		<td>37</td>
+	</tr>
+	<tr>
+		<td>Protection 3</td>
+		<td>33</td>
+		<td>53</td>
+	</tr>
+	<tr>
+		<td>Protection 4</td>
+		<td>49</td>
+		<td>69</td>
+	</tr>
+	<tr>
+		<td>Fire Protection 1</td>
+		<td>10</td>
+		<td>22</td>
+	</tr>
+	<tr>
+		<td>Fire Protection 2</td>
+		<td>18</td>
+		<td>30</td>
+	</tr>
+	<tr>
+		<td>Fire Protection 3</td>
+		<td>26</td>
+		<td>38</td>
+	</tr>
+	<tr>
+		<td>Fire Protection 4</td>
+		<td>34</td>
+		<td>46</td>
+	</tr>
+	<tr>
+		<td>Feather Falling 1</td>
+		<td>5</td>
+		<td>15</td>
+	</tr>
+	<tr>
+		<td>Feather Falling 2</td>
+		<td>11</td>
+		<td>21</td>
+	</tr>
+	<tr>
+		<td>Feather Falling 3</td>
+		<td>17</td>
+		<td>27</td>
+	</tr>
+	<tr>
+		<td>Feather Falling 4</td>
+		<td>33</td>
+		<td>43</td>
+	</tr>
+	<tr>
+		<td>Blast Protection 1</td>
+		<td>5</td>
+		<td>17</td>
+	</tr>
+	<tr>
+		<td>Blast Protection 2</td>
+		<td>13</td>
+		<td>25</td>
+	</tr>
+	<tr>
+		<td>Blast Protection 3</td>
+		<td>21</td>
+		<td>33</td>
+	</tr>
+	<tr>
+		<td>Blast Protection 4</td>
+		<td>29</td>
+		<td>41</td>
+	</tr>
+	<tr>
+		<td>Projectile Protection 1</td>
+		<td>3</td>
+		<td>18</td>
+	</tr>
+	<tr>
+		<td>Projectile Protection 2</td>
+		<td>9</td>
+		<td>26</td>
+	</tr>
+	<tr>
+		<td>Projectile Protection 3</td>
+		<td>15</td>
+		<td>30</td>
+	</tr>
+	<tr>
+		<td>Projectile Protection 4</td>
+		<td>21</td>
+		<td>36</td>
+	</tr>
+	<tr>
+		<td>Silk Touch</td>
+		<td>25</td>
+		<td>61</td>
+	</tr>
+	<tr>
+		<td>Aqua Affinity</td>
+		<td>1</td>
+		<td>41</td>
+	</tr>
+</table>
+
+<h2><a onclick="document.getElementById('p5summ').style.display = document.getElementById('p5summ').style.display === 'none' ? '' : 'none'; document.getElementById('p5summArrow').textContent = document.getElementById('p5summArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="p5summArrow">&#9660;</span> b1.9-p5 summary</a></h2>
+<div id="p5summ">
+<h3>Choosing enchanting levels</h3>
+<p>To choose enchanting levels (the 3 xp costs shown to the player in the enchant), we rely on the number of nearby bookshelves and some random values. In this version, the max level is 50 instead of 30, enchantment levels are often not shown in increasing order, more bookshelves can be used, and taking an item out of the enchanting slot and reinserting it refreshes the options.</p>
+<img src="enchanting-setup.svg" width=240px height=240px alt="Enchanting table surrounded by 16 bookshelves, with a 1-block air gap."></img>
+<p>This is a top-down view of an enchanting setup (note that bookshelf sides are shown for clarity). Bookshelves in each of these positions count to the total, either at or 1 block above the y-level of the bookshelf. This means that a total of 32 bookshelves can be in range of the table, however, the number is capped at 30 for calculation purposes. This allows a door to be added at no cost.</p>
+<p>The image below indicates how bookshelves can be blocked off by highlighting air blocks and their associated bookshelves in the same color. A non-air block in either block of a column will prevent all of that column's bookshelves from being counted.</p>
+<img src="enchanting-setup-highlighted.svg" width=240px height=240px alt="Previous image, but with regions highlighted such that air blocks are grouped with the bookshelves touching them (and corner air blocks are grouped with corner bookshelves)"></img>
+<p>Now that we know what the number of bookshelves counted is, we transform it by doing each of the following:</p>
+<ul>
+	<li>Add 1</li>
+	<li>Add a random integer between 0 and half the counted number of bookshelves (rounded down)</li>
+	<li>Add a random integer between 0 and the counted number of bookshelves</li>
+	<li>Add a random integer between 0 and 4</li>
+	<li>At the end, do the following, based on which slot we're calculating for:
+		<ul>
+			<li>Top slot: divide by two, rounded down, and add 1.</li>
+			<li>Middle slot: multiply by 2/3, rounded down, and add 1.</li>
+			<li>Bottom slot: do nothing</li>
+		</ul>
+	</li>
+</ul>
+<p>After that calculation, the value is displayed in the slot.</p>
+</div>
+</body>
+</html>

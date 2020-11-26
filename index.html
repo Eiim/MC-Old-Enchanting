@@ -99,7 +99,7 @@ if(ench_slot == 1) {
 <p>We finally return the values shown to the player. If we're in the top slot, this value is <code>l/2+1</code>, rounded down. The second slot gets <code>2/3*l + 1</code>, rounded down, and the botton slot gets just <code>l</code>. Note that this is called seperately, with different random values, for each slot, so this fractional relationship isn't preserved for any one enchanting table offer, but should be for an overall average.</p>
 </div>
 
-<h2><a onclick="document.getElementById('p5summ').style.display = document.getElementById('p5summ').style.display === 'none' ? '' : 'none'; document.getElementById('p5summArrow').textContent = document.getElementById('p5summArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="p5summArrow">&#9660;</span> b1.9-p5 code analysis</a></h2>
+<h2><a onclick="document.getElementById('p5summ').style.display = document.getElementById('p5summ').style.display === 'none' ? '' : 'none'; document.getElementById('p5summArrow').textContent = document.getElementById('p5summArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="p5summArrow">&#9660;</span> b1.9-p5 summary</a></h2>
 <div id="p5summ">
 <h3>Choosing enchanting levels</h3>
 <p>To choose enchanting levels (the 3 xp costs shown to the player in the enchant), we rely on the number of nearby bookshelves and some random values. In this version, the max level is 50 instead of 30, enchantment levels are often not shown in increasing order, more bookshelves can be used, and taking an item out of the enchanting slot and reinserting it refreshes the options.</p>
@@ -107,7 +107,21 @@ if(ench_slot == 1) {
 <p>This is a top-down view of an enchanting setup (note that bookshelf sides are shown for clarity). Bookshelves in each of these positions count to the total, either at or 1 block above the y-level of the bookshelf. This means that a total of 32 bookshelves can be in range of the table, however, the number is capped at 30 for calculation purposes. This allows a door to be added at no cost.</p>
 <p>The image below indicates how bookshelves can be blocked off by highlighting air blocks and their associated bookshelves in the same color. A non-air block in either block of a column will prevent all of that column's bookshelves from being counted.</p>
 <img src="enchanting-setup-highlighted.svg" width=240px height=240px alt="Previous image, but with regions highlighted such that air blocks are grouped with the bookshelves touching them (and corner air blocks are grouped with corner bookshelves)"></img>
-
+<p>Now that we know what the number of bookshelves counted is, we transform it by doing each of the following:</p>
+<ul>
+	<li>Add 1</li>
+	<li>Add a random integer between 0 and half the counted number of bookshelves (rounded down)</li>
+	<li>Add a random integer between 0 and the counted number of bookshelves</li>
+	<li>Add a random integer between 0 and 4</li>
+	<li>At the end, do the following, based on which slot we're calculating for:
+		<ul>
+			<li>Top slot: divide by two, rounded down, and add 1.</li>
+			<li>Middle slot: multiply by 2/3, rounded down, and add 1.</li>
+			<li>Bottom slot: do nothing</li>
+		</ul>
+	</li>
+</ul>
+<p>After that calculation, the value is displayed in the slot.</p>
 </div>
 </body>
 </html>

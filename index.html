@@ -109,8 +109,22 @@ if(ench_slot == 1) {
 <p>We finally return the values shown to the player. If we're in the top slot, this value is <code>l/2+1</code>, rounded down. The second slot gets <code>2/3*l + 1</code>, rounded down, and the botton slot gets just <code>l</code>. Note that this is called seperately, with different random values, for each slot, so this fractional relationship isn't preserved for any one enchanting table offer, but should be for an overall average.</p>
 
 <h3>Enchanting an item - level to valid enchantments</h3>
-<p>When a player clicks on a slot in the enchanting table, a function triggers in the <code>ContainerEnchantment</code> class. The first few lines of this code get the item, the xp levels to be consumed, and make some checks that the item can be enchanted. The <code>choose_enchants</code> function of the <code>EnchantmentHelper</code> class then is called to find the valid enchantments.</p>
-<p>The first few lines are again just getting the item and a check that it is enchantable. Next, we store the enchantability in the variable <code>j</code>. The enchantability of an item is defined as in the table below.</p>
+<p>When a player clicks on a slot in the enchanting table, a function triggers in the <code>ContainerEnchantment</code> class.</p>
+<pre>
+ItemStack item_to_enchant = slot_ench_table.getStackInSlot(0);
+if(chosen_xp_levels[slot] > 0 && item_to_enchant != null && player.playerLevel >= chosen_xp_levels[slot]) {
+    if(!the_world.multiplayerWorld) {
+        List enchants = EnchantmentHelper.choose_enchants(random, item_to_enchant, chosen_xp_levels[slot]);
+</pre>
+<p>The first few lines of this code get the item, the xp levels to be consumed, and make some checks that the item can be enchanted. The multiplayer check is because this code is extracted from the client jar, and in multiplayer worlds, the server does the enchanting. The <code>choose_enchants</code> function of the <code>EnchantmentHelper</code> class then is called to find the valid enchantments.</p>
+<pre>
+Item item = itemstack.getItem();
+int j = item.enchantability();
+if(j <= 0) {
+    return null;
+}
+</pre>
+<p>The first few lines are again just getting the item and a check that it is enchantable. We also store the enchantability in the variable <code>j</code>. The enchantability of an item is defined as in the table below.</p>
 <table>
 	<tr>
 		<th>Material</th>
@@ -150,9 +164,30 @@ int k = j + xp_cost;
 float f = ((random.nextFloat() + random.nextFloat()) - 1.0F) * 0.25F;
 int l = (int)((float)k * (1.0F + f) + 0.5F);
 </pre>
-<p>As you can see, the way this randomness is integrated is complicated, and so the resultant probability distribution is non-trivial. <code>k</code> should follow a triangular distribution, as should <code>f</code>, but I'm not certain what the resulting distribution of <code>l</code> is. It is likely somewhat bell-shaped. I plan to add a tool to visualize it on this page in the future.</p>
-<p>We now switch to the <code>get_valid_enchants</code> function in the same class. Ultimately, this just iterates over each possible function ID (0-255) and checks if that function exists. If it does exist, it iterates over all possible levels for that function (eg, Efficiency 1 - 5, Silk Touch 1). For each of those, it checks the <code>get_min_levels</code> and <code>get_max_levels</code> functions and checks that <code>l</code> is within the bounds returned by those. In the code, these are defined Enchantment child classes by overriding two functions in the Enchantment class. Those bounds are described in the table below:</p>
-
+<p>As you can see, the way this randomness is integrated is complicated, and so the resultant probability distribution is non-trivial. <code>k</code> should follow a triangular distribution, as should <code>f</code>, but I'm not certain what the resulting distribution of <code>l</code> is. It is likely somewhat bell-shaped. I plan to add a tool to visualize it on this page in the future. We now switch to the <code>get_valid_enchants</code> function in the same class.</p>
+<pre>
+Item item = itemstack.getItem();
+HashMap hashmap = null;
+Enchantment aenchantment[] = Enchantment.enchants;
+int j = aenchantment.length;
+for(int k = 0; k < j; k++) {  // Check every possible enchantment ID
+    Enchantment enchantment = aenchantment[k];
+    if(enchantment == null || !enchantment.ench_type.matches_item(item)) {
+         continue;
+    }
+    for(int ench_level = enchantment.min_level(); ench_level <= enchantment.max_level(); ench_level++) {
+        if(l < enchantment.min_l_level(ench_level) || l > enchantment.max_l_level(ench_level)) {
+            continue;
+        }
+        if(hashmap == null) {
+            hashmap = new HashMap();
+        }
+        hashmap.put(Integer.valueOf(enchantment.ench_id), new EnchantmentData(enchantment, ench_level));
+    }
+}
+return hashmap;
+</pre>
+<p>Ultimately, this just iterates over each possible function ID (0-255) and checks if that function exists. If it does exist, it iterates over all possible levels for that function (eg, Efficiency 1 - 5, Silk Touch 1). For each of those, it checks the <code>get_min_levels</code> and <code>get_max_levels</code> functions and checks that <code>l</code> is within the bounds returned by those. In the code, these are defined Enchantment child classes by overriding two functions in the Enchantment class. Those bounds are described in the table below:</p>
 <a onclick="document.getElementById('lvalTab').style.display = document.getElementById('lvalTab').style.display === 'none' ? '' : 'none'; document.getElementById('lvalTabArrow').textContent = document.getElementById('lvalTabArrow').textContent === '&#9660;' ? '&#9654;' : '&#9660;'"><span id="lvalTabArrow">&#9654;</span> l-value table</a>
 <div id="lvalTab" style="display:none">
 <table>

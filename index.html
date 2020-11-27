@@ -437,6 +437,7 @@ return hashmap;
 		<td>41</td>
 	</tr>
 </table>
+<p>All enchantments where <code>l</code> is within those limits are returned. It is worth re-iterating that those bounds are not bounds on the xp levels used, but the value which results from the levels used, the enchantability, and some random variables.</p>
 </div>
 </div>
 
@@ -463,6 +464,53 @@ return hashmap;
 	</li>
 </ul>
 <p>After that calculation, the value is displayed in the slot.</p>
+<h3>Enchanting an item - level to valid enchantments</h3>
+<p>We first find the enchantability of the item. This can be found in the table below:</p>
+<table>
+	<tr>
+		<th>Material</th>
+		<th>Tool</th>
+		<th>Armor</th>
+	</tr>
+	<tr>
+		<td>Leather/Wood</td>
+		<td>15</td>
+		<td>15</td>
+	</tr>
+	<tr>
+		<td>Stone/Chain</td>
+		<td>5</td>
+		<td>12</td>
+	</tr>
+	<tr>
+		<td>Iron</td>
+		<td>14</td>
+		<td>9</td>
+	</tr>
+	<tr>
+		<td>Gold</td>
+		<td>22</td>
+		<td>25</td>
+	</tr>
+	<tr>
+		<td>Diamond</td>
+		<td>10</td>
+		<td>10</td>
+	</tr>
+</table>
+<p>Next, we take the enchantability and transform it by doing the following:</p>
+<ol>
+	<li>Add 1</li>
+	<li>Add a random integer, between 0 and half the enchantability, rounded down</li>
+	<li>Add another random integer, between 0 and half the enchantability, rounded down</li>
+	<li>Add the XP cost</li>
+	<li>Store the running total as k</li>
+	<li>Add two random (non-integer) values between -.25 and .25 together, and add 1 to that sum</li>
+	<li>Multiply the previous result by k</li>
+	<li>Add .5</li>
+	<li>Round down</li>
+</ol>
+<p>Finally, we select all enchantment levels which this result, which we call <code>l</code>, is within the bounds for. These bounds can be found in a table in the "code explanation" section.</p>
 </div>
 </body>
 </html>

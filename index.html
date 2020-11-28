@@ -5,8 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="Description" content="Documentation and calculators for Minecraft enchantment mechanics of the Beta 1.9 Prereleases and 1.0.0.">
-<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Source+Code+Pro&display=swap" rel="stylesheet">
+<script src="dist/main.bundle.js"></script>
 <style>
 * {
 	font-family: 'Noto Sans', sans-serif
@@ -445,10 +446,10 @@ return hashmap;
 <div id="p5summ">
 <h3>Choosing enchanting levels</h3>
 <p>To choose enchanting levels (the 3 xp costs shown to the player in the enchant), we rely on the number of nearby bookshelves and some random values. In this version, the max level is 50 instead of 30, enchantment levels are often not shown in increasing order, more bookshelves can be used, and taking an item out of the enchanting slot and reinserting it refreshes the options.</p>
-<img src="enchanting-setup.svg" width=240px height=240px alt="Enchanting table surrounded by 16 bookshelves, with a 1-block air gap."></img>
+<img src="./enchanting-setup.svg" width=240px height=240px alt="Enchanting table surrounded by 16 bookshelves, with a 1-block air gap."></img>
 <p>This is a top-down view of an enchanting setup (note that bookshelf sides are shown for clarity). Bookshelves in each of these positions count to the total, either at or 1 block above the y-level of the bookshelf. This means that a total of 32 bookshelves can be in range of the table, however, the number is capped at 30 for calculation purposes. This allows a door to be added at no cost.</p>
 <p>The image below indicates how bookshelves can be blocked off by highlighting air blocks and their associated bookshelves in the same color. A non-air block in either block of a column will prevent all of that column's bookshelves from being counted.</p>
-<img src="enchanting-setup-highlighted.svg" width=240px height=240px alt="Previous image, but with regions highlighted such that air blocks are grouped with the bookshelves touching them (and corner air blocks are grouped with corner bookshelves)"></img>
+<img src="./enchanting-setup-highlighted.svg" width=240px height=240px alt="Previous image, but with regions highlighted such that air blocks are grouped with the bookshelves touching them (and corner air blocks are grouped with corner bookshelves)"></img>
 <p>Now that we know what the number of bookshelves counted is, we transform it by doing each of the following:</p>
 <ul>
 	<li>Add 1</li>

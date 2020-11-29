@@ -4,8 +4,12 @@ node_js:
 deploy:
   provider: pages
   skip_cleanup: true
+  local-dir: dist
   github_token: $GITHUB_TOKEN
   keep_history: true
+  target-branch: gh-pages
+  verbose: true
   on:
     branch: reorginization
-script: npx webpack
+script: 
+  - npm run build

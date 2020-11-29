@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="Description" content="Documentation and calculators for Minecraft enchantment mechanics of the Beta 1.9 Prereleases and 1.0.0.">
-<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Source+Code+Pro&display=swap" rel="stylesheet">
 <style>
 * {
@@ -34,7 +34,7 @@ code, pre {
 <p>The relevant code is found in the <code>onCraftMatrixChanged</code> function of the <code>ContainerEnchantment</code> class, as named by MCP. This is one of only a handful of relevant functions that MCP names. From here on out, most function names I've assigned.
 <pre>
 if(itemstack == null || !itemstack.is_enchantable()) {
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i &lt; 3; i++) {
         chosen_xp_levels[i] = 0;
     }
 }
@@ -42,8 +42,8 @@ if(itemstack == null || !itemstack.is_enchantable()) {
 <p>This code will clear out the xp levels in the table if the item isn't enchantable. This changes the appearance in the UI. If our item is enchantable, we continue with the following code.</p>
 <pre>
 int bookshelves = 0;
-for(int k = -1; k <= 1; k++) {
-    for(int i1 = -1; i1 <= 1; i1++) {
+for(int k = -1; k &lt;= 1; k++) {
+    for(int i1 = -1; i1 &lt;= 1; i1++) {
         if(k == 0 && i1 == 0 || !the_world.isAirBlock(x + i1, y, z + k) || !the_world.isAirBlock(x + i1, y + 1, z + k)) {
             continue;
         }
@@ -75,7 +75,7 @@ for(int k = -1; k <= 1; k++) {
 <p>If they are air, then it checks the column coordinates with double the offset as the air column, and bookshelves in that column count towards the total. This counts corner bookshelves for corner air columns and side bookshelves for side air columns.</p>
 <p>However, this leaves 8 columns unchecked, namely, those with an offset of (±2, ±1) or (±1, ±2) from the table. To check these, it uses the air corners and selectively doubles the offset for either x or z.<p>
 <pre>
-for(int ench_slot = 0; ench_slot < 3; ench_slot++) {
+for(int ench_slot = 0; ench_slot &lt; 3; ench_slot++) {
     chosen_xp_levels[ench_slot] = EnchantmentHelper.get_xp_offer(random, ench_slot, bookshelves, itemstack);
 }
 </pre>
@@ -83,22 +83,22 @@ for(int ench_slot = 0; ench_slot < 3; ench_slot++) {
 <pre>
 Item item = itemstack.getItem();
 int k = item.enchantability();
-if(k <= 0) {
+if(k &lt;= 0) {
     return 0;
 }
-if(bookshelves > 30) {
+if(bookshelves &gt; 30) {
     bookshelves = 30;
 }
 </pre>
 <p>This code gets our item and the enchantability of the item. This enchantability will be positive for any enchantable item. If that enchantability isn't strictly positive, it's unenchantable and we stop. Otherwise, we cap out the number of bookshelves used for calculations at 30 (32 is possible, but 30 allows for a door to be added).</p>
 <pre>
-bookshelves = 1 + random.nextInt((bookshelves >> 1) + 1) + random.nextInt(bookshelves + 1);
+bookshelves = 1 + random.nextInt((bookshelves &gt;&gt; 1) + 1) + random.nextInt(bookshelves + 1);
 int xp_cost = random.nextInt(5) + bookshelves;
 </pre>
-<p>This is finally where the magic happens. We calculate a value <code>xp_cost</code> from the number of bookshelves and some random integers. This code is fairly straightforward to understand (note that the <code>>> 1</code> operator is equivalent to integer division by 2.)</p>
+<p>This is finally where the magic happens. We calculate a value <code>xp_cost</code> from the number of bookshelves and some random integers. This code is fairly straightforward to understand (note that the <code>&gt;&gt; 1</code> operator is equivalent to integer division by 2.)</p>
 <pre>
 if(ench_slot == 0) {
-    return (xp_cost >> 1) + 1;
+    return (xp_cost &gt;&gt; 1) + 1;
 }
 if(ench_slot == 1) {
     return (xp_cost * 2) / 3 + 1;
@@ -112,7 +112,7 @@ if(ench_slot == 1) {
 <p>When a player clicks on a slot in the enchanting table, a function triggers in the <code>ContainerEnchantment</code> class.</p>
 <pre>
 ItemStack item_to_enchant = slot_ench_table.getStackInSlot(0);
-if(chosen_xp_levels[slot] > 0 && item_to_enchant != null && player.playerLevel >= chosen_xp_levels[slot]) {
+if(chosen_xp_levels[slot] &gt; 0 && item_to_enchant != null && player.playerLevel &gt;= chosen_xp_levels[slot]) {
     if(!the_world.multiplayerWorld) {
         List enchants = EnchantmentHelper.choose_enchants(random, item_to_enchant, chosen_xp_levels[slot]);
 </pre>
@@ -120,7 +120,7 @@ if(chosen_xp_levels[slot] > 0 && item_to_enchant != null && player.playerLevel >
 <pre>
 Item item = itemstack.getItem();
 int j = item.enchantability();
-if(j <= 0) {
+if(j &lt;= 0) {
     return null;
 }
 </pre>
@@ -159,7 +159,7 @@ if(j <= 0) {
 </table>
 <p>We then calculate an <code>l</code>-value from this enchantability (which <code>j</code> is initialized to), the xp cost calculated in the previous section, and some random values.
 <pre>
-j = 1 + random.nextInt((j >> 1) + 1) + random.nextInt((j >> 1) + 1);
+j = 1 + random.nextInt((j &gt;&gt; 1) + 1) + random.nextInt((j &gt;&gt; 1) + 1);
 int k = j + xp_cost;
 float f = ((random.nextFloat() + random.nextFloat()) - 1.0F) * 0.25F;
 int l = (int)((float)k * (1.0F + f) + 0.5F);
@@ -170,17 +170,17 @@ Item item = itemstack.getItem();
 HashMap hashmap = null;
 Enchantment aenchantment[] = Enchantment.enchants;
 int j = aenchantment.length;
-for(int k = 0; k < j; k++) {  // Check every possible enchantment ID
+for(int k = 0; k &lt; j; k++) {  // Check every possible enchantment ID
     Enchantment enchantment = aenchantment[k];
     if(enchantment == null || !enchantment.ench_type.matches_item(item)) {
          continue;
     }
-    for(int ench_level = enchantment.min_level(); ench_level <= enchantment.max_level(); ench_level++) {
-        if(l < enchantment.min_l_level(ench_level) || l > enchantment.max_l_level(ench_level)) {
+    for(int ench_level = enchantment.min_level(); ench_level &lt;= enchantment.max_level(); ench_level++) {
+        if(l &lt; enchantment.min_l_level(ench_level) || l > enchantment.max_l_level(ench_level)) {
             continue;
         }
         if(hashmap == null) {
-            hashmap = new HashMap();
+			hashmap = new HashMap();
         }
         hashmap.put(Integer.valueOf(enchantment.ench_id), new EnchantmentData(enchantment, ench_level));
     }
@@ -445,10 +445,10 @@ return hashmap;
 <div id="p5summ">
 <h3>Choosing enchanting levels</h3>
 <p>To choose enchanting levels (the 3 xp costs shown to the player in the enchant), we rely on the number of nearby bookshelves and some random values. In this version, the max level is 50 instead of 30, enchantment levels are often not shown in increasing order, more bookshelves can be used, and taking an item out of the enchanting slot and reinserting it refreshes the options.</p>
-<img src="enchanting-setup.svg" width=240px height=240px alt="Enchanting table surrounded by 16 bookshelves, with a 1-block air gap."></img>
+<img src="imgs/enchanting-setup.svg" width=240px height=240px alt="Enchanting table surrounded by 16 bookshelves, with a 1-block air gap."/>
 <p>This is a top-down view of an enchanting setup (note that bookshelf sides are shown for clarity). Bookshelves in each of these positions count to the total, either at or 1 block above the y-level of the bookshelf. This means that a total of 32 bookshelves can be in range of the table, however, the number is capped at 30 for calculation purposes. This allows a door to be added at no cost.</p>
 <p>The image below indicates how bookshelves can be blocked off by highlighting air blocks and their associated bookshelves in the same color. A non-air block in either block of a column will prevent all of that column's bookshelves from being counted.</p>
-<img src="enchanting-setup-highlighted.svg" width=240px height=240px alt="Previous image, but with regions highlighted such that air blocks are grouped with the bookshelves touching them (and corner air blocks are grouped with corner bookshelves)"></img>
+<img src="imgs/enchanting-setup-highlighted.svg" width=240px height=240px alt="Previous image, but with regions highlighted such that air blocks are grouped with the bookshelves touching them (and corner air blocks are grouped with corner bookshelves)"/>
 <p>Now that we know what the number of bookshelves counted is, we transform it by doing each of the following:</p>
 <ul>
 	<li>Add 1</li>

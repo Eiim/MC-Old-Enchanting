@@ -1,9 +1,6 @@
 language: node_js
 node_js:
   - node
-branches:
-  only:
-  - main
 deploy:
   provider: pages
   skip_cleanup: true
@@ -13,6 +10,8 @@ deploy:
   target-branch: gh-pages
   verbose: true
   on:
-    branch: reorginization
+    branches:
+      only:
+        - main
 script: 
   - npm run build

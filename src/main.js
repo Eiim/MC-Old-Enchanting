@@ -1,1 +1,1 @@
-function test() {return 4}
+console.log("test");

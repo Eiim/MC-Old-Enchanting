@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const basePath = "file:///"+path.resolve(__dirname, 'dist/');
 
 module.exports = {
 	module: {
@@ -11,7 +12,7 @@ module.exports = {
 			{test: /\.js$/i, exclude: /node_modules/, loader: 'babel-loader', options: {presets: ['@babel/preset-env']}},
 			{test: /\.css$/i, use: [{loader: MiniCssExtractPlugin.loader},'css-loader', 'style-loader']},
 			{test: /\.html$/i, use: 'html-loader'},
-			{test: /\.(png|svg|jpg|jpeg|gif)$/i, use: 'file-loader'}
+			{test: /\.(png|svg|jpg|jpeg|gif)$/i, use: {loader:'file-loader',options:{name:'imgs/[name].[ext]',publicPath:basePath}}}
 		]
 	},
 	entry: {
@@ -20,7 +21,7 @@ module.exports = {
 	output: {
 		filename: '[name].bundle.js',
 		path: path.resolve(__dirname, 'dist'),
-		publicPath: path.resolve(__dirname, 'dist')
+		publicPath: basePath
 	},
 	plugins: [
 		new CleanWebpackPlugin(),

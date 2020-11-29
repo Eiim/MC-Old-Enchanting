@@ -10,8 +10,6 @@ deploy:
   target-branch: gh-pages
   verbose: true
   on:
-    branches:
-      only:
-        - main
+    branch: main
 script: 
   - npm run build

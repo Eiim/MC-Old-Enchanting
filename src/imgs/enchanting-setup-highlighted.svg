@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="160" height="160" version="1.1" viewBox="0 0 42.333 42.333" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(16.933 16.933)">
+  <rect width="8.467" height="8.467" fill="#a02c2c" stop-color="#000000" stroke-width="1.0583"/>
+  <path d="m0 0h2.1167v1.5875h-0.52917v0.52917h-1.5875z" fill="#80ffe6"/>
+  <path d="m8.4667 0h-2.1167v1.5875h0.52917v0.52917h1.5875z" fill="#80ffe6"/>
+  <path d="m0 8.4667h2.1167v-1.5875h-0.52917v-0.52917h-1.5875z" fill="#80ffe6"/>
+  <path d="m8.4667 8.4667h-2.1167v-1.5875h0.52917v-0.52917h1.5875z" fill="#80ffe6"/>
+  <g transform="rotate(-15 4.2333 4.2333)">
+   <rect x="1.587" y="2.117" width="5.292" height="4.233" fill="#e08b52" stop-color="#000000"/>
+   <rect x="2.117" y="2.646" width="4.233" height="3.175" fill="#e6e6e6" stop-color="#000000"/>
+  </g>
+ </g>
+ <g id="o">
+  <rect width="8.467" height="8.467" fill="#af8d58" stop-color="#000000" stroke-width="1.0583"/>
+  <rect x=".529" y=".529" width="7.408" height="7.408" fill="#282013" stop-color="#000000" stroke-width=".92604"/>
+  <rect y="3.704" width="8.467" height="1.058" fill="#af8d58" stop-color="#000000" stroke-width=".37418"/>
+  <rect x=".529" y="1.058" width="1.058" height="2.646" fill="#a02c2c" stop-color="#000000"/>
+  <rect x="1.588" y="1.587" width=".529" height="2.117" fill="#008080" stop-color="#000000"/>
+  <rect x="2.117" y="1.058" width="1.058" height="2.646" fill="#31399b" stop-color="#000000"/>
+  <rect x="3.175" y=".529" width="1.058" height="3.175" fill="#72a114" stop-color="#000000"/>
+  <rect x="6.879" y="1.587" width="1.058" height="2.117" fill="#008080" stop-color="#000000"/>
+  <rect x="5.821" y="1.058" width="1.058" height="2.646" fill="#72a114" stop-color="#000000"/>
+  <rect transform="matrix(.97822 -.20756 .20753 .97823 0 0)" x="3.914" y="1.969" width="1.058" height="2.646" fill="#a02c2c" stop-color="#000000"/>
+  <rect x=".529" y="5.821" width="1.587" height="2.117" fill="#6d3700" stop-color="#000000"/>
+  <rect x="2.117" y="5.292" width="1.058" height="2.646" fill="#a02c2c" stop-color="#000000"/>
+  <rect x="3.175" y="6.35" width=".529" height="1.587" fill="#31399b" stop-color="#000000"/>
+  <rect x="7.408" y="5.821" width=".529" height="2.117" fill="#008080" stop-color="#000000"/>
+  <rect x="6.35" y="4.762" width="1.058" height="3.175" fill="#31399b" stop-color="#000000"/>
+  <rect x="5.821" y="5.821" width=".529" height="2.117" fill="#a02c2c" stop-color="#000000"/>
+  <rect x="4.762" y="5.292" width="1.058" height="2.646" fill="#bcbe26" stop-color="#000000"/>
+  <rect transform="rotate(15)" x="5.597" y="4.459" width=".529" height="2.117" fill="#72a114" stop-color="#000000"/>
+ </g>
+ <use id="n" transform="translate(8.467)" width="100%" height="100%" xlink:href="#o"/>
+ <use id="m" transform="translate(8.467)" width="100%" height="100%" xlink:href="#n"/>
+ <use id="l" transform="translate(8.467)" width="100%" height="100%" xlink:href="#m"/>
+ <use id="k" transform="translate(8.467)" width="100%" height="100%" xlink:href="#l"/>
+ <use id="j" transform="translate(0,8.467)" width="100%" height="100%" xlink:href="#k"/>
+ <use id="i" transform="translate(0,8.467)" width="100%" height="100%" xlink:href="#j"/>
+ <use id="h" transform="translate(0,8.467)" width="100%" height="100%" xlink:href="#i"/>
+ <use id="g" transform="translate(0,8.467)" width="100%" height="100%" xlink:href="#h"/>
+ <use id="f" transform="translate(-8.467)" width="100%" height="100%" xlink:href="#g"/>
+ <use id="e" transform="translate(-8.467)" width="100%" height="100%" xlink:href="#f"/>
+ <use id="d" transform="translate(-8.467)" width="100%" height="100%" xlink:href="#e"/>
+ <use id="c" transform="translate(-8.467)" width="100%" height="100%" xlink:href="#d"/>
+ <use id="b" transform="translate(0,-8.467)" width="100%" height="100%" xlink:href="#c"/>
+ <use id="a" transform="translate(0,-8.467)" width="100%" height="100%" xlink:href="#b"/>
+ <use transform="translate(0,-8.467)" width="100%" height="100%" xlink:href="#a"/>
+ <rect x=".00033244" y=".00033244" width="16.933" height="16.933" fill="#72a114" fill-opacity=".5" stop-color="#000000"/>
+ <rect x=".00033244" y="25.4" width="16.933" height="16.933" fill="#bcbe26" fill-opacity=".5" stop-color="#000000"/>
+ <rect x="25.4" y="25.4" width="16.933" height="16.933" fill="#008080" fill-opacity=".5" stop-color="#000000"/>
+ <rect x="25.4" y=".00033244" width="16.933" height="16.933" fill="#80ffe6" fill-opacity=".5" stop-color="#000000"/>
+ <rect x=".00033244" y="16.933" width="16.933" height="8.467" fill="#6d3700" fill-opacity=".5" stop-color="#000000"/>
+ <rect x="25.4" y="16.933" width="16.933" height="8.467" fill="#282013" fill-opacity=".5" stop-color="#000000"/>
+ <rect transform="rotate(90)" x=".00033244" y="-25.4" width="16.933" height="8.467" fill="#31399b" fill-opacity=".5" stop-color="#000000"/>
+ <rect transform="rotate(90)" x="25.4" y="-25.4" width="16.933" height="8.467" fill="#a02c2c" fill-opacity=".5" stop-color="#000000"/>
+</svg>

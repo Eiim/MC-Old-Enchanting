@@ -7,21 +7,13 @@
 <meta name="Description" content="Code analysis for Minecraft enchanting mechanics in Beta 1.9 Prerelease 5">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Source+Code+Pro&display=swap" rel="stylesheet">
-<style>
-* {
-	font-family: 'Noto Sans', sans-serif
-}
-code, pre {
-	font-family: 'Source Code Pro', monospace
-}
-</style>
 </head>
 <body>
 <h2><a href="index.html">Main</a></h2>
 <h2 style="height:32px">b1.9-p5 code analysis</h2>
 <div id="p5code">
 <p>We start with b1.9-p5 solely because a version of MCP was released for it. This and other historical MCP versions can be found on the <a href="https://minecraft.gamepedia.com/Programs_and_editors/Mod_Coder_Pack">Minecraft Wiki</a>, and a direct download can be found <a href="http://www.mediafire.com/?rf5tothc5h7au3f">here.</a></p>
-<h3>Choosing enchanting levels</h3>
+<h3 id="chooseLevels">Choosing enchanting levels <a href="p5Summary.html#chooseLevels">(Summary)</a></h3>
 <p>In these versions of Minecraft, the maximum enchanting level was 50, and removing an item from the slot and re-adding it would refresh the available levels. This means that we will first want to determine how these levels are chosen, as it is obviously very different from modern Minecraft.</p>
 <p>The relevant code is found in the <code>onCraftMatrixChanged</code> function of the <code>ContainerEnchantment</code> class, as named by MCP. This is one of only a handful of relevant functions that MCP names. From here on out, most function names I've assigned.
 <pre>
@@ -100,7 +92,7 @@ if(ench_slot == 1) {
 </pre>
 <p>We finally return the values shown to the player. If we're in the top slot, this value is <code>l/2+1</code>, rounded down. The second slot gets <code>2/3*l + 1</code>, rounded down, and the botton slot gets just <code>l</code>. Note that this is called seperately, with different random values, for each slot, so this fractional relationship isn't preserved for any one enchanting table offer, but should be for an overall average.</p>
 
-<h3>Enchanting an item - level to valid enchantments</h3>
+<h3 id="levelToValid">Enchanting an item - level to valid enchantments <a href="p5Summary.html#levelToValid">(Summary)</a></h3>
 <p>When a player clicks on a slot in the enchanting table, a function triggers in the <code>ContainerEnchantment</code> class.</p>
 <pre>
 ItemStack item_to_enchant = slot_ench_table.getStackInSlot(0);

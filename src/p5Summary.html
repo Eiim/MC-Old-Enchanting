@@ -7,20 +7,12 @@
 <meta name="Description" content="Summary of Minecraft enchanting mechanics in Beta 1.9 Prerelease 5">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Source+Code+Pro&display=swap" rel="stylesheet">
-<style>
-* {
-	font-family: 'Noto Sans', sans-serif
-}
-code, pre {
-	font-family: 'Source Code Pro', monospace
-}
-</style>
 </head>
 <body>
 <h2><a href="index.html">Main</a></h2>
 <h2>b1.9-p5 summary</h2>
 <div id="p5summ">
-<h3>Choosing enchanting levels</h3>
+<h3 id="chooseLevels">Choosing enchanting levels <a href="p5Code.html#chooseLevels">(Code analysis)</a></h3>
 <p>To choose enchanting levels (the 3 xp costs shown to the player in the enchant), we rely on the number of nearby bookshelves and some random values. In this version, the max level is 50 instead of 30, enchantment levels are often not shown in increasing order, more bookshelves can be used, and taking an item out of the enchanting slot and reinserting it refreshes the options.</p>
 <img src="imgs/enchanting-setup.svg" width=240px height=240px alt="Enchanting table surrounded by 16 bookshelves, with a 1-block air gap."/>
 <p>This is a top-down view of an enchanting setup (note that bookshelf sides are shown for clarity). Bookshelves in each of these positions count to the total, either at or 1 block above the y-level of the bookshelf. This means that a total of 32 bookshelves can be in range of the table, however, the number is capped at 30 for calculation purposes. This allows a door to be added at no cost.</p>
@@ -41,7 +33,7 @@ code, pre {
 	</li>
 </ul>
 <p>After that calculation, the value is displayed in the slot.</p>
-<h3>Enchanting an item - level to valid enchantments</h3>
+<h3 id="levelToValid">Enchanting an item - level to valid enchantments <a href="p5Code.html#levelToValid">(Code analysis)</a></h3>
 <p>We first find the enchantability of the item. This can be found in the table below:</p>
 <table>
 	<tr>

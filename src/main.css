@@ -1,0 +1,12 @@
+body {
+	font-family: 'Noto Sans', sans-serif
+}
+code, pre {
+	font-family: 'Source Code Pro', monospace
+}
+pre {
+	overflow-x: auto;
+	background: #eee;
+	border-radius: 8px;
+	padding: 5px;
+}

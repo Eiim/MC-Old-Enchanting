@@ -10,7 +10,7 @@ module.exports = {
 	module: {
 		rules: [
 			{test: /\.js$/i, exclude: /node_modules/, loader: 'babel-loader', options: {presets: ['@babel/preset-env']}},
-			{test: /\.css$/i, use: [{loader: MiniCssExtractPlugin.loader},'css-loader', 'style-loader']},
+			{test: /\.css$/i, use: [MiniCssExtractPlugin.loader,'css-loader']},
 			{test: /\.html$/i, use: 'html-loader'},
 			{test: /\.(png|svg|jpg|jpeg|gif)$/i, use: {loader:'file-loader',options:{name:'imgs/[name].[ext]',publicPath:basePath}}}
 		]
@@ -31,8 +31,26 @@ module.exports = {
 			chunks: ['main'],
 			filename: 'index.html'
 		}),
+		new HtmlWebpackPlugin({
+			template: './src/p5Code.html',
+			inject: 'body',
+			chunks: ['main'],
+			filename: 'p5Code.html'
+		}),
+		new HtmlWebpackPlugin({
+			template: './src/p5Summary.html',
+			inject: 'body',
+			chunks: ['main'],
+			filename: 'p5Summary.html'
+		}),
+		new HtmlWebpackPlugin({
+			template: './src/notes.html',
+			inject: 'body',
+			chunks: ['main'],
+			filename: 'notes.html'
+		}),
 		new MiniCssExtractPlugin({
-			filename: '[name].[contenthash].css',
+			filename: '[name].css',
 			chunkFilename: '[id].[contenthash].css'
 		})
 	],

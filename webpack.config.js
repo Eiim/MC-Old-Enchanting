@@ -31,6 +31,18 @@ module.exports = {
 			chunks: ['main'],
 			filename: 'index.html'
 		}),
+		new HtmlWebpackPlugin({
+			template: './src/p5Code.html',
+			inject: 'body',
+			chunks: ['main'],
+			filename: 'p5Code.html'
+		}),
+		new HtmlWebpackPlugin({
+			template: './src/p5Summary.html',
+			inject: 'body',
+			chunks: ['main'],
+			filename: 'p5Summary.html'
+		}),
 		new MiniCssExtractPlugin({
 			filename: '[name].[contenthash].css',
 			chunkFilename: '[id].[contenthash].css'

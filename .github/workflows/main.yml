@@ -36,7 +36,9 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git commit -m "Update website" -a
       - name: Push fies
-        uses: ad-m/github-push-action@master
+        uses: s0/git-publish-subdir-action@develop
         with:
-          github_token: ${{ secrets.GH_ACTIONS_TOKEN }}
+          repo: self
+          folder: dist
           branch: "gh-pages"
+          github_token: ${{ secrets.GH_ACTIONS_TOKEN }}

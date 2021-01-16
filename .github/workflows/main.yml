@@ -30,11 +30,6 @@ jobs:
         run: yarn install
       - name: Webpack
         run: npx webpack
-      - name: Commit files
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -m "Update website" -a
       - name: Push fies
         uses: s0/git-publish-subdir-action@develop
         with:

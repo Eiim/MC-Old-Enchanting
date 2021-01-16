@@ -1,0 +1,42 @@
+name: CI
+ 
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up yarn
+        run: yarn install
+      - name: Webpack
+        run: npx webpack
+  
+  build+push:
+    environment: github-pages
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up yarn
+        run: yarn install
+      - name: Webpack
+        run: npx webpack
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Update website" -a
+      - name: Push fies
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_ACTIONS_TOKEN }}
+          branch: "gh-pages"

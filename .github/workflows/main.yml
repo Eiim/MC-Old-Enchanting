@@ -33,7 +33,7 @@ jobs:
       - name: Push fies
         uses: s0/git-publish-subdir-action@develop
         with:
-          repo: self
-          folder: dist
-          branch: "gh-pages"
-          github_token: ${{ secrets.GH_ACTIONS_TOKEN }}
+          REPO: self
+          FOLDER: dist
+          BRANCH: "gh-pages"
+          GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}

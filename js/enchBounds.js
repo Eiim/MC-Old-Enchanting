@@ -252,3 +252,198 @@ document.addEventListener('DOMContentLoaded', (event) => {
   `
   document.getElementById("enchBounds").innerHTML = boundsTable;
 })
+
+const lbounds = {
+	"Sharpness 1": {
+		"min": 1,
+		"max": 21
+	},
+	"Sharpness 2": {
+		"min": 17,
+		"max": 37
+	},
+	"Sharpness 3": {
+		"min": 33,
+		"max": 53
+	},
+	"Sharpness 4": {
+		"min": 49,
+		"max": 69
+	},
+	"Sharpness 5": {
+		"min": 65,
+		"max": 85
+	},
+	"Efficiency 1": {
+		"min": 1,
+		"max": 61
+	},
+	"Efficiency 2": {
+		"min": 16,
+		"max": 71
+	},
+	"Efficiency 3": {
+		"min": 31,
+		"max": 81
+	},
+	"Efficiency 4": {
+		"min": 46,
+		"max": 91
+	},
+	"Efficiency 5": {
+		"min": 61,
+		"max": 101
+	},
+	"Unbreaking 1": {
+		"min": 5,
+		"max": 61
+	},
+	"Unbreaking 2": {
+		"min": 15,
+		"max": 71
+	},
+	"Unbreaking 3": {
+		"min": 25,
+		"max": 81
+	},
+	"Unbreaking 4": {
+		"min": 35,
+		"max": 91
+	},
+	"Unbreaking 5": {
+		"min": 45,
+		"max": 101
+	},
+	"Fire Aspect 1": {
+		"min": 10,
+		"max": 61
+	},
+	"Fire Aspect 2": {
+		"min": 30,
+		"max": 71
+	},
+	"Knockback 1": {
+		"min": 5,
+		"max": 61
+	},
+	"Knockback 2": {
+		"min": 25,
+		"max": 71
+	},
+	"Fortune 1": {
+		"min": 20,
+		"max": 61
+	},
+	"Fortune 2": {
+		"min": 32,
+		"max": 71
+	},
+	"Looting 1": {
+		"min": 20,
+		"max": 61
+	},
+	"Looting 2": {
+		"min": 32,
+		"max": 71
+	},
+	"Respiration 1": {
+		"min": 10,
+		"max": 40
+	},
+	"Respiration 2": {
+		"min": 20,
+		"max": 50
+	},
+	"Respiration 3": {
+		"min": 30,
+		"max": 60
+	},
+	"Protection 1": {
+		"min": 1,
+		"max": 21
+	},
+	"Protection 2": {
+		"min": 17,
+		"max": 37
+	},
+	"Protection 3": {
+		"min": 33,
+		"max": 53
+	},
+	"Protection 4": {
+		"min": 49,
+		"max": 69
+	},
+	"Fire Protection 1": {
+		"min": 10,
+		"max": 22
+	},
+	"Fire Protection 2": {
+		"min": 18,
+		"max": 30
+	},
+	"Fire Protection 3": {
+		"min": 26,
+		"max": 38
+	},
+	"Fire Protection 4": {
+		"min": 34,
+		"max": 46
+	},
+	"Feather Falling 1": {
+		"min": 5,
+		"max": 15
+	},
+	"Feather Falling 2": {
+		"min": 11,
+		"max": 21
+	},
+	"Feather Falling 3": {
+		"min": 17,
+		"max": 27
+	},
+	"Feather Falling 4": {
+		"min": 33,
+		"max": 43
+	},
+	"Blast Protection 1": {
+		"min": 5,
+		"max": 17
+	},
+	"Blast Protection 2": {
+		"min": 13,
+		"max": 25
+	},
+	"Blast Protection 3": {
+		"min": 21,
+		"max": 33
+	},
+	"Blast Protection 4": {
+		"min": 29,
+		"max": 41
+	},
+	"Projectile Protection 1": {
+		"min": 3,
+		"max": 18
+	},
+	"Projectile Protection 2": {
+		"min": 9,
+		"max": 26
+	},
+	"Projectile Protection 3": {
+		"min": 15,
+		"max": 30
+	},
+	"Projectile Protection 4": {
+		"min": 21,
+		"max": 36
+	},
+	"Silk Touch": {
+		"min": 25,
+		"max": 61
+	},
+	"Aqua Affinity": {
+		"min": 1,
+		"max": 41
+	}
+}
